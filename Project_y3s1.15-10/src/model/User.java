@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class User {
 public Connection connect() {
@@ -45,8 +47,20 @@ public Connection connect() {
 		
 		else {
 			
+			//check password length
 			if(pwd.length()<8)
 				return output+="Password should be at least 8 characters";
+			//
+			
+			//check email format
+			String regex = "^(.+)@(.+)$"; 
+			Pattern pattern = Pattern.compile(regex);		 
+			Matcher matcher = pattern.matcher(email);
+			
+			if(matcher.matches()==false)
+				return "Invalid email";
+			//
+			
 		}
 		String query = "insert into user(userId,fname,lname,uname,dateActive,email,pwd,type)"+" values(?,?,?,?,?,?,?,?)";
 		
