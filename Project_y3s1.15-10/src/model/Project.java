@@ -49,12 +49,12 @@ public class Project
 				
 				if(ch == false)
 				{
-					return "invalid input";
+					return "invalid input for status ";
 				}
 				
 				if(ch2 == false)
 				{
-					return "invalid input";
+					return "invalid input for invest status";
 				}
 				
 				Date sDate=Date.valueOf(sdate);
