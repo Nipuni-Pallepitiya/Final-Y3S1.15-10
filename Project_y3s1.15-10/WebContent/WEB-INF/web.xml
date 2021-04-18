@@ -7,16 +7,20 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 <servlet-mapping>
-<servlet-name>Jersey Web Application</servlet-name>
-<url-pattern>/ProjectService/*</url-pattern>
+	<servlet-name>Jersey Web Application</servlet-name>
+	<url-pattern>/ProjectService/*</url-pattern>
 </servlet-mapping>
 <servlet-mapping>
- <servlet-name>Jersey Web Application</servlet-name>
- <url-pattern>/UserService/*</url-pattern>
+ 	<servlet-name>Jersey Web Application</servlet-name>
+ 	<url-pattern>/UserService/*</url-pattern>
 </servlet-mapping>
 <servlet-mapping>
- <servlet-name>Jersey Web Application</servlet-name>
- <url-pattern>/InvestmentService/*</url-pattern>
+ 	<servlet-name>Jersey Web Application</servlet-name>
+ 	<url-pattern>/InvestmentService/*</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+	<servlet-name>Jersey Web Application</servlet-name>
+	<url-pattern>/ProductService/*</url-pattern>
 </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
