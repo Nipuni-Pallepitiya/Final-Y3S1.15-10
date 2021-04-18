@@ -37,11 +37,16 @@ public class Project
 					return "please enter all fields.";
 				}
 				
-				//if(!status.equals("yes")||investStatus.equals("yes")||investStatus.equals("Yes")||status.equals("Yes")||status.equals("no")||investStatus.equals("no")||investStatus.equals("No")||status.equals("No"))
+				
 				{
+					
 				Boolean ch,ch2;
+				
 				ch=status.equalsIgnoreCase("Yes") || status.equalsIgnoreCase("No");
 				ch2=investStatus.equalsIgnoreCase("Yes")||investStatus.equalsIgnoreCase("No");
+				
+				
+				
 				if(ch == false)
 				{
 					return "invalid input";
@@ -51,6 +56,13 @@ public class Project
 				{
 					return "invalid input";
 				}
+				
+				Date sDate=Date.valueOf(sdate);
+				Date eDate=Date.valueOf(edate);
+				
+				if(eDate.compareTo(sDate)<0)
+					return "Invalid End date";
+				
 				
 				
 				
@@ -67,8 +79,8 @@ public class Project
 				preparedStmt.setString(2, ProjectName);
 				preparedStmt.setString(3, ProjectType);
 				preparedStmt.setString(4, UserID);
-				preparedStmt.setString(5, sdate);
-				preparedStmt.setString(6, edate);
+				preparedStmt.setDate(5, sDate);
+				preparedStmt.setDate(6, eDate);
 				preparedStmt.setString(7, status);
 				preparedStmt.setString(8, investStatus);
 				preparedStmt.setDouble(9, Double.parseDouble(InvestmentAmount));
@@ -79,6 +91,7 @@ public class Project
 				preparedStmt.execute();
 				con.close();
 				output = "Inserted successfully";
+				
 				}
 				
 				
@@ -168,22 +181,53 @@ public class Project
 		{
 		Connection con = connect();
 		if (con == null)
-		{return "Error while connecting to the database for updating."; }
-		// create a prepared statement
-		String query = "UPDATE projects SET ProjectName=?,ProjectType=?,UserID=?,sdate=?,edate=?,status=?,investStatus=?,InvestmentAmount=?,ProposedEquity=?,ProjectTimeline=? WHERE ProjectID=?";
-		PreparedStatement preparedStmt = con.prepareStatement(query);
-		// binding values
-		preparedStmt.setString(1, ProjectName);
-		preparedStmt.setString(2, ProjectType);
-		preparedStmt.setInt(3,  Integer.parseInt(UserID));
-		preparedStmt.setString(4, sdate);
-		preparedStmt.setString(5, edate);
-		preparedStmt.setString(6, status);
-		preparedStmt.setString(7, investStatus);
-		preparedStmt.setDouble(8, Double.parseDouble(InvestmentAmount));
-		preparedStmt.setDouble(9, Double.parseDouble(ProposedEquity));
-		preparedStmt.setString(10, ProjectTimeline);
-		preparedStmt.setInt(11, Integer.parseInt(ProjectID));
+		{
+			return "Error while connecting to the database for updating."; 
+		}
+		else
+		{
+			
+			if(ProjectName.equals("")||UserID.equals("")||sdate.equals("")||edate.equals("")||status.equals("")||investStatus.equals("")||ProjectTimeline.equals("")||ProposedEquity.equals("")||InvestmentAmount.equals("")||ProjectType.equals(""))
+			{
+				return "please enter all fields.";
+			}
+			
+			//if(!status.equals("yes")||investStatus.equals("yes")||investStatus.equals("Yes")||status.equals("Yes")||status.equals("no")||investStatus.equals("no")||investStatus.equals("No")||status.equals("No"))
+			{
+			Boolean ch,ch2;
+			ch=status.equalsIgnoreCase("Yes") || status.equalsIgnoreCase("No");
+			ch2=investStatus.equalsIgnoreCase("Yes")||investStatus.equalsIgnoreCase("No");
+			if(ch == false)
+			{
+				return "invalid input for status";
+			}
+			
+			if(ch2 == false)
+			{
+				return "invalid input for invest status";
+			}
+			
+			Date s1Date=Date.valueOf(sdate);
+			Date e1Date=Date.valueOf(edate);
+			
+			if(e1Date.compareTo(s1Date)<0)
+				return "Invalid End date";
+			
+			// create a prepared statement
+			String query = "UPDATE projects SET ProjectName=?,ProjectType=?,UserID=?,sdate=?,edate=?,status=?,investStatus=?,InvestmentAmount=?,ProposedEquity=?,ProjectTimeline=? WHERE ProjectID=?";
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+			// binding values
+			preparedStmt.setString(1, ProjectName);
+			preparedStmt.setString(2, ProjectType);
+			preparedStmt.setInt(3,  Integer.parseInt(UserID));
+			preparedStmt.setDate(4, s1Date);
+			preparedStmt.setDate(5, e1Date);
+			preparedStmt.setString(6, status);
+			preparedStmt.setString(7, investStatus);
+			preparedStmt.setDouble(8, Double.parseDouble(InvestmentAmount));
+			preparedStmt.setDouble(9, Double.parseDouble(ProposedEquity));
+			preparedStmt.setString(10, ProjectTimeline);
+			preparedStmt.setInt(11, Integer.parseInt(ProjectID));
 		
 		
 		/*
@@ -209,11 +253,14 @@ public class Project
 		con.close();
 		output = "Updated successfully";
 		}
+		}
+		}
 		catch (Exception e)
 		{
 		output = "Error while updating the project.";
 		System.err.println(e.getMessage());
 		}
+		
 		return output;
 	}
 	public String deleteProject(String ProjectID)
