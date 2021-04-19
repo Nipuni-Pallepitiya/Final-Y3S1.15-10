@@ -211,7 +211,7 @@ public class Project
 			Date e1Date=Date.valueOf(edate);
 			
 			if(e1Date.compareTo(s1Date)<0)
-				return "Invalid End date";
+				return "Edate should be greater than SDate";
 			
 			// create a prepared statement
 			String query = "UPDATE projects SET ProjectName=?,ProjectType=?,UserID=?,sdate=?,edate=?,status=?,investStatus=?,InvestmentAmount=?,ProposedEquity=?,ProjectTimeline=? WHERE ProjectID=?";
