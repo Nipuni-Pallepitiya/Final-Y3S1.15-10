@@ -61,7 +61,7 @@ public class Project
 				Date eDate=Date.valueOf(edate);
 				
 				if(eDate.compareTo(sDate)<0)
-					return "Invalid End date";
+					return "Edate should be greater than SDate";
 				
 				
 				
