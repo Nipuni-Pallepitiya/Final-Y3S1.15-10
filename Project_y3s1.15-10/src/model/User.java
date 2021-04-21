@@ -156,7 +156,7 @@ public Connection connect() {
 				 output += "<td>" + userEmail + "</td>"; 	
 				 output += "<td>" + userType + "</td>";
 				 
-				if(userType.equals("researcher")) {
+				if(userType.equals("researcher")||userType.equals("Researcher")) {
 					 				
 					 String query2 = "select * from researcher where researcherId = ?;";
 					 PreparedStatement stmtr = con.prepareStatement(query2);
