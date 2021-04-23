@@ -1,6 +1,8 @@
 package com;
 
 import model.Project;
+
+import javax.annotation.security.RolesAllowed;
 //For REST Service
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -14,6 +16,7 @@ import org.jsoup.nodes.Document;
 public class ProjectService
 {
 	Project projectObj = new Project();
+	@RolesAllowed("Admin")
 	@GET
 	@Path("/")
 	@Produces(MediaType.TEXT_HTML)
@@ -23,6 +26,7 @@ public class ProjectService
 		return projectObj.readProjects();
 	}
 	
+	@RolesAllowed("Researcher")
 	@POST
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -37,6 +41,7 @@ public class ProjectService
 	return output;
 	}
 	
+	@RolesAllowed({"Researcher","Admin"})
 	@PUT
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -61,6 +66,7 @@ public class ProjectService
 	return output;
 	}
 	
+	@RolesAllowed({"Researcher","Admin"})
 	@DELETE
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_XML)

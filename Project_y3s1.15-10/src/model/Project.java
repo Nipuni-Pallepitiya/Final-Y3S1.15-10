@@ -228,24 +228,6 @@ public class Project
 			preparedStmt.setDouble(9, Double.parseDouble(ProposedEquity));
 			preparedStmt.setString(10, ProjectTimeline);
 			preparedStmt.setInt(11, Integer.parseInt(ProjectID));
-		
-		
-		/*
-		 {
-    "ProjectID":"5",
-    "ProjectName":"xyz",
-    "ProjectType":"typ",
-    "UserID":"1",
-    "sdate":"2020-09-09",
-    "edate":"2020-09-09",
-    "status":"yes",
-    "investStatus":"no",
-    "InvestmentAmount":"30",
-    "ProposedEquity":"30",
-    "ProjectTimeline":"10years"
-
-		}
-		 */
 
 		
 		// execute the statement
