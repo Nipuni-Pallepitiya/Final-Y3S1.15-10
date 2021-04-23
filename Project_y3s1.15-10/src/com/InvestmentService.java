@@ -1,5 +1,6 @@
 package com;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -17,6 +18,8 @@ import model.Investment;
 @Path("/Investments") 
 public class InvestmentService {
 	Investment investmentObj = new Investment(); 
+
+	@RolesAllowed({"Admin","Investor"})
 	@GET
 	@Path("/") 
 	@Produces(MediaType.TEXT_HTML) 
@@ -33,6 +36,7 @@ public class InvestmentService {
 		return userObj.readAUser(uid);
 	}*/
 	
+	@RolesAllowed({"Admin","Investor"})
 	@POST
 	@Path("/") 
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED) 
@@ -47,6 +51,7 @@ public class InvestmentService {
 	return output; 
 	}
 	
+	@RolesAllowed({"Admin","Investor"})
 	@PUT
 	@Path("/") 
 	@Consumes(MediaType.APPLICATION_JSON) 
@@ -66,6 +71,7 @@ public class InvestmentService {
 	return output; 
 	}
 	
+	@RolesAllowed({"Admin","Investor"})
 	@DELETE
 	@Path("/") 
 	@Consumes(MediaType.APPLICATION_JSON) 

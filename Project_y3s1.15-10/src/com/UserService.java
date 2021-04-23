@@ -1,6 +1,7 @@
 package com;
 
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -19,6 +20,8 @@ import model.User;
 @Path("/Users") 
 public class UserService {
 	User userObj = new User(); 
+	
+	@RolesAllowed("Admin")
 	@GET
 	@Path("/") 
 	@Produces(MediaType.TEXT_HTML) 
@@ -28,7 +31,7 @@ public class UserService {
 	}
 	
 	@GET
-	@Path("/")
+	@Path("/login")
 	@Consumes(MediaType.APPLICATION_JSON) 
 	@Produces(MediaType.TEXT_HTML) 
 	public String loginUser(String udata) 
@@ -42,6 +45,7 @@ public class UserService {
 		return output; 
 	}
 	
+	@RolesAllowed({"Researcher","Customer","Investor"})
 	@POST
 	@Path("/") 
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED) 
@@ -59,6 +63,7 @@ public class UserService {
 	return output; 
 	}
 	
+	@RolesAllowed({"Researcher","Customer"})
 	@PUT
 	@Path("/") 
 	@Consumes(MediaType.APPLICATION_JSON) 
@@ -72,11 +77,14 @@ public class UserService {
 	 String fname = userObject.get("fname").getAsString(); 
 	 String lname = userObject.get("lname").getAsString(); 
 	 String email = userObject.get("email").getAsString(); 
+	 String oldpwd = userObject.get("opwd").getAsString();
+	 String newpwd = userObject.get("npwd").getAsString();
  
-	 String output = userObj.updateUser(userID, fname,lname, email); 
-	return output; 
+	 String output = userObj.updateUser(userID, fname,lname, email,oldpwd,newpwd); 
+	 return output; 
 	}
 	
+	@RolesAllowed({"Researcher","Customer"})
 	@DELETE
 	@Path("/") 
 	@Consumes(MediaType.APPLICATION_JSON) 
