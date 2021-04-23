@@ -1,5 +1,6 @@
 package com;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -22,6 +23,7 @@ import model.Product;
 public class ProductService {
 
 	Product prodobj = new Product();
+	@RolesAllowed("Customer")
 	@GET
 	@Path("/")
 	@Produces(MediaType.TEXT_HTML)
@@ -31,6 +33,7 @@ public class ProductService {
 		return prodobj.readProduct();
 	}
 	
+	@RolesAllowed("Admin")
 	@POST
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -46,6 +49,7 @@ public class ProductService {
 		return output;
 	}
 	
+	@RolesAllowed("Admin")
 	@PUT
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -67,6 +71,7 @@ public class ProductService {
 		return output;
 	}
 	
+	@RolesAllowed("Admin")
 	@DELETE
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_XML)
