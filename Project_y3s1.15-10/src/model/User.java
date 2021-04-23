@@ -85,7 +85,7 @@ public Connection connect() {
 	        }
 		
 		  keynew = (int) key;
-		if(type.equals("customer")) {	            
+		if(type.equals("Customer")) {	            
 	       
 			query = "insert into customer values(?)";
 			preparedStmt = con.prepareStatement(query);
@@ -93,7 +93,7 @@ public Connection connect() {
 			preparedStmt.execute();
 		}
 		
-		else {
+		else if(type.equals("Researcher")){
 			          
 		     query = "insert into researcher(researcherId,nic,level) values(?,?,?)";
 		     preparedStmt = con.prepareStatement(query);
@@ -150,6 +150,7 @@ public Connection connect() {
 				 String userEmail = rs.getString("email");
 				 String userType = rs.getString("type");
 				 
+				 if(!userType.equals("Admin")) {
 				 output += "<tr><td>" + userId + "</td>";
 				 output += "<td>" + fname +" "+lname + "</td>";
 				 output += "<td>" + username + "</td>";
@@ -174,6 +175,7 @@ public Connection connect() {
 				 }
 				
 			 	}
+			 }
 			 con.close();
 			 // Complete the html table
 			 output += "</table>";
@@ -270,6 +272,56 @@ public Connection connect() {
 			return output;
 	}
 	
+public String authenticateRole(String uname,String pwd) {
+		
+		String output = "";
+		
+		try {
+			
+			Connection con = connect();
+			
+			if (con == null)
+			{
+				return "Error while connecting to the database for reading.";
+			}
+			
+			if(uname.equals("") || pwd.equals("")) {
+				return "Please enter your username and password";
+			}
+								  
+					
+					 String query = "select * from user where uname = ? and pwd=?";
+					 PreparedStatement stmt = con.prepareStatement(query);
+					 stmt.setString(1, uname);	
+					 stmt.setString(2, pwd);	
+					 ResultSet rs = stmt.executeQuery();
+					
+					 while (rs.next())
+					 {
+						 String userId = Integer.toString(rs.getInt("userId"));
+						 String username = rs.getString("uname");
+						 String fname = rs.getString("fname");
+						 String lname = rs.getString("lname");
+						 String userEmail = rs.getString("email");
+						 String userType = rs.getString("type");
+						
+						 output=userType;
+						 	 
+					 }
+						
+			 con.close();
+			 // Complete the html table
+		
+			}
+			catch (Exception e)
+			{
+				 output = "Error";
+				 System.err.println(e.getMessage());
+			}
+		
+			return output;
+	}
+	
 	public String deleteUser(String uid) {
 		
 		String output = "";
@@ -299,7 +351,7 @@ public Connection connect() {
 		return output;
 	}
 	
- public String updateUser(String id,String fname,String lname,String email) {
+ public String updateUser(String id,String fname,String lname,String email,String oldpwd,String newpwd) {
 		
 		String output = "";
 		
@@ -310,19 +362,37 @@ public Connection connect() {
 				return "Error while connecting to the database for update.";
 			}
 			
-			String query = "update user set fname = ?,lname = ?,email = ? where userId = ?";
+			String oldpswd="";
+			String check = "select pwd from user where userId = ?";
+			PreparedStatement stmt = con.prepareStatement(check);
+			stmt.setInt(1, Integer.parseInt(id));
+			ResultSet rs = stmt.executeQuery();
+			 
+			while(rs.next())
+			oldpswd =rs.getString("pwd");
+			 
+			if(oldpswd.equals(oldpwd)) {
+			 
+				String query = "update user set fname = ?,lname = ?,email = ?,pwd = ? where userId = ?";
+				
+				PreparedStatement preparedStmt = con.prepareStatement(query);			
+				
+				preparedStmt.setString(1, fname);
+				preparedStmt.setString(2, lname);
+				preparedStmt.setString(3, email);
+				preparedStmt.setString(4, newpwd);
+				preparedStmt.setInt(5, Integer.parseInt(id));
+				
+				preparedStmt.execute();
+				con.close();
+				
+				output = "Updated successfully";
+			 }
 			
-			PreparedStatement preparedStmt = con.prepareStatement(query);			
-			
-			preparedStmt.setString(1, fname);
-			preparedStmt.setString(2, lname);
-			preparedStmt.setString(3, email);
-			preparedStmt.setInt(4, Integer.parseInt(id));
-			
-			preparedStmt.execute();
-			con.close();
-			
-			output = "Updated successfully";
+			else {
+				
+				return "Invalid password";
+			}
 		}
 		catch(Exception e) {
 			output = "Error while updating the user details";
