@@ -5,6 +5,7 @@ import model.Sales;
 //for REST Service
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import javax.annotation.security.RolesAllowed;
 
 //for JSON
 import com.google.gson.*;
@@ -19,6 +20,7 @@ public class SalesService {
 
 	Sales saleObj = new Sales();
 	
+	@RolesAllowed({"Admin","Customer"})
 	@GET
 	@Path("/")
 	@Produces(MediaType.TEXT_HTML)
@@ -26,6 +28,7 @@ public class SalesService {
 		return saleObj.allSales();
 	}
 	
+	@RolesAllowed({"Customer"})
 	@POST
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -39,6 +42,7 @@ public class SalesService {
 		return output;
 	}
 	
+	@RolesAllowed({"Admin","Customer"})
 	@PUT
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -60,6 +64,7 @@ public class SalesService {
 		return output;
 	}
 	
+	@RolesAllowed({"Admin"})
 	@DELETE
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_XML)
