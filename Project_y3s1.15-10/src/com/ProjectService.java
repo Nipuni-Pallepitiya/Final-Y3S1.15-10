@@ -22,7 +22,6 @@ public class ProjectService
 	@Produces(MediaType.TEXT_HTML)
 	public String readProjects()
 	{
-		//return "Hello";
 		return projectObj.readProjects();
 	}
 	
