@@ -16,13 +16,12 @@ import org.jsoup.nodes.Document;
 public class ProjectService
 {
 	Project projectObj = new Project();
-	@RolesAllowed("Admin")
+	@RolesAllowed({"Investor","Admin"})
 	@GET
 	@Path("/")
 	@Produces(MediaType.TEXT_HTML)
 	public String readProjects()
 	{
-		//return "Hello";
 		return projectObj.readProjects();
 	}
 	
