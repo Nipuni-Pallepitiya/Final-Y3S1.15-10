@@ -31,7 +31,7 @@ public class Sales {
 			Connection con = connect();
 			
 			if(con == null) {
-				return "Error while connection to the database for inserting";
+				return "Cannot Connect to Database for Insertion Operation";
 			}
 			//prepared statement
 			String query = " insert into sales"
@@ -54,10 +54,10 @@ public class Sales {
 			preparedStmt.execute();
 			con.close();
 			
-			output = "Inserted Successfully";
+			output = "Sales Record Added Successfully";
 		}
 		catch(Exception e) {
-			output = "Error while instering the record";
+			output = "Sales Record Not Added";
 			System.err.println(e.getMessage());
 		}
 		return output;
@@ -70,7 +70,7 @@ public class Sales {
 			Connection con = connect();
 			
 			if(con == null) {
-				return "Error while connecting to the database for reading";
+				return "Cannot Connect to Database for Read Operation";
 			}
 			
 			//prepare the html table to be displayed
@@ -115,11 +115,13 @@ public class Sales {
 			output += "</table>";
 			
 		} catch(Exception e) {
-			output = "Error while loading Sales";
+			output = "Sales Data Not Loaded Due to an Error";
 			System.err.println(e.getMessage());
 		}
 		return output;
 	}
+	
+	
 	
 	public String updateSales(String invoiceId, String purchaseDate, String totalUnits, String netAmount, String discountTax, String totalAmount, String paymentType, String orderStatus )
 	{
@@ -130,11 +132,11 @@ public class Sales {
 			Connection con = connect();
 			
 			if(con == null) {
-				return "Error while connecting to the database for updating";
+				return "Cannot Connect to Database for Update Operation";
 			}
 			
 			//create prepared statement
-			String query = "Update sales SET invoiceId=?, purchaseDate=?,totalUnits=?,"
+			String query = "Update sales SET  invoiceId=?,purchaseDate=?,totalUnits=?,"
 					+ "netAmount=?,discountTax=?,totalAmount=?,paymentType=?,orderStatus=?";
 			
 			PreparedStatement preparedStmt = con.prepareStatement(query);
@@ -153,10 +155,10 @@ public class Sales {
 			preparedStmt.execute();
 			con.close();
 			
-			output = "Updated Successfully";
+			output = "Sales Record Updated Successfully";
 			
 		}catch(Exception e) {
-			output = "Error while updating sales";
+			output = "Sales Record Not Updated";
 			System.err.println(e.getMessage());
 		}
 		return output;
@@ -169,7 +171,7 @@ public class Sales {
 			Connection con = connect();
 			
 			if(con == null) {
-				return "Error while connection to the database for deleting";
+				return "Cannot Connect to Database for Delete Operation";
 			}
 			
 			//create prepared statement
@@ -184,9 +186,9 @@ public class Sales {
 			preparedStmt.execute();
 			con.close();
 			
-			output = "Deleted Successfully";
+			output = "Sales Record Deleted Successfully";
 		} catch(Exception e) {
-			output = "Errorn while deleting sale";
+			output = "Cannot Delete the Sales Record";
 			System.err.println(e.getMessage());
 		}
 		
