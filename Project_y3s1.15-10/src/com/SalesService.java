@@ -5,6 +5,8 @@ import model.Sales;
 //for REST Service
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+
+//for REST Authorization
 import javax.annotation.security.RolesAllowed;
 
 //for JSON
@@ -20,13 +22,24 @@ public class SalesService {
 
 	Sales saleObj = new Sales();
 	
+	//Retrieve all sales data
 	@RolesAllowed({"Admin","Customer"})
 	@GET
 	@Path("/")
 	@Produces(MediaType.TEXT_HTML)
 	public String readSales() {
-		return saleObj.allSales();
+		
+		String sales = saleObj.allSales();
+		
+		if(!sales.isEmpty()) {
+			return sales;
+		} else {
+			return "Table is Empty";
+		}
+		//return saleObj.allSales(); this is working
+		
 	}
+	
 	
 	@RolesAllowed({"Customer"})
 	@POST
@@ -39,7 +52,13 @@ public class SalesService {
 			@FormParam("paymentType") String paymentType, @FormParam("orderStatus") String orderStatus)
 	{
 		String output = saleObj.insertSales(invoiceId, purchaseDate, totalUnits, netAmount, discountTax, totalAmount, paymentType, orderStatus);
-		return output;
+		
+		if(!output.isEmpty()) {
+			return output;
+		} else {
+			return "Record Not Added";
+		}
+		//return output;
 	}
 	
 	@RolesAllowed({"Admin","Customer"})
@@ -61,6 +80,13 @@ public class SalesService {
 		String orderStatus = salesObject.get("orderStatus").getAsString();
 		
 		String output = saleObj.updateSales(invoiceId, purchaseDate, totalUnits, netAmount, discountTax, totalAmount, paymentType, orderStatus);
+		
+		//if(!output.isEmpty()) {
+		//	return output;
+		//} else {
+		//	return "Record Not Found or does not Exist";
+		//}
+		
 		return output;
 	}
 	
@@ -74,7 +100,13 @@ public class SalesService {
 		
 		String invoiceId = doc.select("invoiceId").text();
 		String output = saleObj.deleteSales(invoiceId);
-		return output;
+		
+		if(!output.isEmpty()) {
+			return output;
+		} else {
+			return "Record Not Found or does not Exist";
+		}
+		//return output;
 	}
 }
 
